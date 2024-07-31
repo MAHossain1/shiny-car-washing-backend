@@ -5,6 +5,7 @@ import { TErrorSources } from '../../interface/error';
 import handleValidationError from '../../errors/handleValidationError';
 import AppError from '../../errors/AppError';
 import handleDuplicateError from '../../errors/handleDuplicateError';
+import config from '../../config';
 
 const globalErrorHandler: ErrorRequestHandler = (
   error,
@@ -64,6 +65,7 @@ const globalErrorHandler: ErrorRequestHandler = (
     success: false,
     message,
     errorSources,
+    stack: config.node_env !== 'production' ? error?.stack : null,
   });
 };
 
