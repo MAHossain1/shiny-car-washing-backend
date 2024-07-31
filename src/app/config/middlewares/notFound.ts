@@ -7,7 +7,7 @@ const notFound = (req: Request, res: Response, next: NextFunction) => {
     message: 'Api Not Found!!',
     error: '',
   });
-  //   next();
+  next();
 };
 
 export default notFound;
