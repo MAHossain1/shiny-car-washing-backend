@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-import { model, Schema } from 'mongoose';
-import { TUser, TUserName } from './user.interface';
-import { Roles } from './user.constant';
 import bcrypt from 'bcrypt';
+import { model, Schema } from 'mongoose';
 import config from '../../config';
+import { Roles } from './user.constant';
+import { TUser, TUserName, UserModel } from './user.interface';
 
 const userNameSchema = new Schema<TUserName>(
   {
@@ -27,7 +27,7 @@ const userNameSchema = new Schema<TUserName>(
   }
 );
 
-const userSchema = new Schema<TUser>(
+const userSchema = new Schema<TUser, UserModel>(
   {
     name: {
       type: userNameSchema,
@@ -87,11 +87,22 @@ userSchema.set('toJSON', {
 });
 
 // use toObject to hide the password fiel
-// userSchema.set('toObject', {
-//   transform: function (doc, ret) {
-//     delete ret.password;
-//     return ret;
-//   },
-// });
+userSchema.set('toObject', {
+  transform: function (doc, ret) {
+    delete ret.password;
+    return ret;
+  },
+});
 
-export const User = model<TUser>('User', userSchema);
+userSchema.statics.isUserExistsByEmail = async function (email: string) {
+  return await User.findOne({ email: email });
+};
+
+userSchema.statics.isPasswordMatch = async function (
+  plainTextPassword,
+  hashedPassword
+) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword);
+};
+
+export const User = model<TUser, UserModel>('User', userSchema);
