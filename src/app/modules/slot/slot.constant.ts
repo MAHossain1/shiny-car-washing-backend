@@ -3,3 +3,5 @@ export const BookedOption = {
   booked: 'booked',
   cancelled: 'cancelled',
 } as const;
+
+export const slotSearchFields = ['isBooked'];
