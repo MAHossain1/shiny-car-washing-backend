@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { BookedOption } from './slot.constant';
 
 const timeStringSchema = z.string().refine(
   time => {
@@ -15,6 +16,7 @@ const createSlotValidationSchema = z.object({
     .object({
       service: z.string({ required_error: 'service is required' }),
       date: z.string({ required_error: 'Date is required.' }),
+      isBooked: z.nativeEnum(BookedOption).default(BookedOption.available),
       startTime: timeStringSchema,
       endTime: timeStringSchema,
     })
