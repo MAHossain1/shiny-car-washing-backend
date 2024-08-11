@@ -12,6 +12,17 @@ function isJwtPayload(user: any): user is JwtPayload {
   return user !== null && typeof user === 'object';
 }
 
+const createUser = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthServices.createUser(req.body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User Created Successfully done.',
+    data: result,
+  });
+});
+
 const LoginUser = catchAsync(async (req: Request, res: Response) => {
   const result = await AuthServices.LoginUser(req.body);
 
@@ -33,6 +44,8 @@ const LoginUser = catchAsync(async (req: Request, res: Response) => {
 const changePassword = catchAsync(async (req: Request, res: Response) => {
   const { ...passwordData } = req.body;
 
+  // const userData = req.user;
+
   // Use the type guard function to ensure req.user is a valid JwtPayload
   //   console.log(req.user);
   if (!isJwtPayload(req.user)) {
@@ -50,6 +63,7 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const AuthControllers = {
+  createUser,
   LoginUser,
   changePassword,
 };

@@ -6,6 +6,12 @@ import { createToken } from './auth.utils';
 import config from '../../config';
 import { JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { TUser } from '../user/user.interface';
+
+const createUser = async (payload: TUser) => {
+  const result = await User.create(payload);
+  return result;
+};
 
 const LoginUser = async (payload: TLoginUser) => {
   const user = await User.isUserExistsByEmail(payload.email);
@@ -96,6 +102,7 @@ const changePassword = async (
 };
 
 export const AuthServices = {
+  createUser,
   LoginUser,
   changePassword,
 };
