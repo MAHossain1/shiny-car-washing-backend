@@ -2,13 +2,15 @@ import express from 'express';
 import auth from '../../config/middlewares/auth';
 import validateRequest from '../../config/middlewares/validateRequest';
 import { ServiceValidationZodSchema } from './service.validation';
+import { ServiceControllers } from './service.controller';
 
 const router = express.Router();
 
 router.post(
   '/',
   auth('admin'),
-  validateRequest(ServiceValidationZodSchema.createServiceValidationSchema)
+  validateRequest(ServiceValidationZodSchema.createServiceValidationSchema),
+  ServiceControllers.createService
 );
 
 export const ServiceRoutes = router;
