@@ -15,6 +15,31 @@ const createService = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAService = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await ServiceServices.getAServiceFromDB(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Retrieved a service successfully done.',
+    data: result,
+  });
+});
+
+const getAllServices = catchAsync(async (req: Request, res: Response) => {
+  const result = await ServiceServices.getAllServicesFromDB();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Retrieved all services successfully done.',
+    data: result,
+  });
+});
+
 export const ServiceControllers = {
   createService,
+  getAService,
+  getAllServices,
 };

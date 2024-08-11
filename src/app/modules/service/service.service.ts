@@ -7,6 +7,20 @@ const createServiceIntoDB = async (payload: TService) => {
   return result;
 };
 
+const getAServiceFromDB = async (serviceId: string) => {
+  const result = await Service.findById(serviceId);
+
+  return result;
+};
+
+const getAllServicesFromDB = async () => {
+  const result = await Service.find();
+
+  return result;
+};
+
 export const ServiceServices = {
   createServiceIntoDB,
+  getAServiceFromDB,
+  getAllServicesFromDB,
 };
