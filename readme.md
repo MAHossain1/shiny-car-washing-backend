@@ -11,6 +11,7 @@ This is the backend application for the Shiny Car Washing platform, built using 
 
 - [APIs](#apis)
   - [User Sign Up](#user-sign-up)
+  - [Auth Login](#auth-login)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
@@ -36,6 +37,74 @@ This is the backend application for the Shiny Car Washing platform, built using 
   "phone": "1234567890",
   "role": "admin", // "user" or "admin"
   "address": "123 Main Street, City, Country"
+}
+```
+
+## Auth Login
+
+- **Endpoint**: `POST /api/auth/login`
+- **Description**: This endpoint allows users to log in and obtain an authentication token.
+
+### Request Body
+
+- **email** (string, required): The email address of the user.
+- **password** (string, required): The password of the user.
+
+### Response
+
+The response is a JSON object with the following schema:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean"
+    },
+    "statusCode": {
+      "type": "integer"
+    },
+    "message": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            },
+            "address": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string"
+            },
+            "updatedAt": {
+              "type": "string"
+            },
+            "__v": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  }
 }
 ```
 
