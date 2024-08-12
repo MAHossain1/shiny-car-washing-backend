@@ -110,7 +110,7 @@ The response is a JSON object with the following schema:
 }
 ```
 
-## Create Service (Only Accessible by Admin)
+## Create Service
 
 - **Endpoint**: `POST /api/services`
 - **Description**: This endpoint allows an admin to create a new service.
@@ -143,7 +143,7 @@ The response is a JSON object with the following schema:
 
 **Description**: This endpoint allows users to retrieve a list of all available services.
 
-## Update Service (Only Accessible by Admin)
+## Update Service
 
 ### PUT /api/services/:id
 
@@ -165,7 +165,7 @@ The response is a JSON object with the following schema:
 }
 ```
 
-## Delete a Service (Only Accessible by Admin)
+## Delete a Service
 
 ### DELETE /api/services/:id
 
