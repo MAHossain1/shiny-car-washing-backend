@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ServiceRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+const auth_1 = __importDefault(require("../../config/middlewares/auth"));
+const validateRequest_1 = __importDefault(require("../../config/middlewares/validateRequest"));
+const service_validation_1 = require("./service.validation");
+const service_controller_1 = require("./service.controller");
+const slot_validation_1 = require("../slot/slot.validation");
+const slot_controller_1 = require("../slot/slot.controller");
+const router = express_1.default.Router();
+router.post('/', (0, auth_1.default)('admin'), (0, validateRequest_1.default)(service_validation_1.ServiceValidationZodSchema.createServiceValidationSchema), service_controller_1.ServiceControllers.createService);
+router.post('/slots', (0, auth_1.default)('admin'), (0, validateRequest_1.default)(slot_validation_1.SlotValidationSchema.createSlotValidationSchema), slot_controller_1.SlotControllers.createSlots);
+router.get('/:id', service_controller_1.ServiceControllers.getAService);
+router.get('/', service_controller_1.ServiceControllers.getAllServices);
+router.put('/:id', (0, auth_1.default)('admin'), (0, validateRequest_1.default)(service_validation_1.ServiceValidationZodSchema.updateServiceValidationSchema), service_controller_1.ServiceControllers.updateAService);
+router.delete('/:id', (0, auth_1.default)('admin'), service_controller_1.ServiceControllers.deleteAService);
+exports.ServiceRoutes = router;
