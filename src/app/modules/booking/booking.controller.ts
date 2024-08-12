@@ -19,6 +19,31 @@ const createABooking = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllBookings = catchAsync(async (req: Request, res: Response) => {
+  const result = await BookingServices.getAllBookingsFromDB();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Retrieved all bookings successfully done.',
+    data: result,
+  });
+});
+
+const getUserBookings = catchAsync(async (req: Request, res: Response) => {
+  const { userEmail } = req.user!;
+  const result = await BookingServices.getUserBookingsFromDB(userEmail);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Retrieved my bookings successfully done.',
+    data: result,
+  });
+});
+
 export const BookingControllers = {
   createABooking,
+  getAllBookings,
+  getUserBookings,
 };

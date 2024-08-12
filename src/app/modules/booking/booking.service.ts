@@ -60,15 +60,50 @@ const createABookingIntoDB = async (userEmail: string, payload: TBooking) => {
     registrationPlate,
   };
 
-  const booking = await Booking.create(bookingData);
+  const createdBooking = await Booking.create(bookingData);
 
-  const populatedBooking = await Booking.findById(booking._id)
+  const booking = await Booking.findById(createdBooking._id)
     .populate('customerId')
     .populate('serviceId')
     .populate('slotId');
-  return populatedBooking;
+
+  const result = {
+    _id: booking?._id,
+    customer: booking?.customerId,
+    service: booking?.serviceId,
+    slot: booking?.slotId,
+    vehicleType: booking?.vehicleType,
+    vehicleBrand: booking?.vehicleBrand,
+    vehicleModel: booking?.vehicleModel,
+    manufacturingYear: booking?.manufacturingYear,
+    registrationPlate: booking?.registrationPlate,
+    createdAt: booking?.createdAt,
+    updatedAt: booking?.updatedAt,
+  };
+  return result;
+};
+
+const getAllBookingsFromDB = async () => {
+  const bookings = await Booking.find()
+    .populate('customerId')
+    .populate('serviceId')
+    .populate('slotId');
+
+  return bookings;
+};
+
+const getUserBookingsFromDB = async (email: string) => {
+  const user = await User.findOne({ email }, { _id: 1 });
+
+  const result = await Booking.find({ customerId: user }, { customerId: 0 })
+    .populate('serviceId')
+    .populate('slotId');
+
+  return result;
 };
 
 export const BookingServices = {
   createABookingIntoDB,
+  getAllBookingsFromDB,
+  getUserBookingsFromDB,
 };
