@@ -1,28 +1,43 @@
+Certainly! Below is the organized documentation in README.md format:
+
+markdown
+Copy code
+
 # Shiny Car Washing Backend
 
-This is a backend application for an e-commerce platform built with Node.js, Express, TypeScript, and MongoDB.
+This is the backend application for the Shiny Car Washing platform, built using Node.js, Express, TypeScript, and MongoDB.
+
+## Table of Contents
+
+- [APIs](#apis)
+  - [User Sign Up](#user-sign-up)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Linting and Formatting](#linting-and-formatting)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
 ## APIs
 
-# User API
+### User Sign Up
 
-## User Sign Up
+- **Endpoint**: `POST /api/auth/signup`
+- **Description**: This API allows you to create a new user account on the platform.
 
-### POST /api/auth/signup
+#### Request Body:
 
-**Description**: Create a new user with the provided details.
-
-**Request Body**:
-
-````json
+```json
 {
   "name": "Programming Hero",
   "email": "web@programming-hero.com",
   "password": "ph-password",
   "phone": "1234567890",
-  "role": "admin",
+  "role": "admin", // "user" or "admin"
   "address": "123 Main Street, City, Country"
 }
+```
 
 ## Prerequisites
 
@@ -39,7 +54,8 @@ Make sure you have the following installed on your system:
    ```sh
    git clone https://github.com/yourusername/ecommerce-backend.git
    cd ecommerce-backend
-````
+
+   ```
 
 2. **Install dependencies**
 
