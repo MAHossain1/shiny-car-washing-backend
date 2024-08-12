@@ -1,8 +1,5 @@
 Certainly! Below is the organized documentation in README.md format:
 
-markdown
-Copy code
-
 # Shiny Car Washing Backend
 
 This is the backend application for the Shiny Car Washing platform, built using Node.js, Express, TypeScript, and MongoDB.
@@ -12,6 +9,11 @@ This is the backend application for the Shiny Car Washing platform, built using 
 - [APIs](#apis)
   - [User Sign Up](#user-sign-up)
   - [Auth Login](#auth-login)
+  - [Create Service](#create-service)
+  - [Get Service by ID](#get-service-by-id)
+  - [Get All Services](#get-all-services)
+  - [Update Service](#update-service)
+  - [Delete a Service](#delete-a-service)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
@@ -108,6 +110,72 @@ The response is a JSON object with the following schema:
 }
 ```
 
+## Create Service (Only Accessible by Admin)
+
+- **Endpoint**: `POST /api/services`
+- **Description**: This endpoint allows an admin to create a new service.
+
+### Request Headers
+
+- **Authorization**: `Bearer <your-jwt-token>`
+
+### Request Body
+
+```json
+{
+  "name": "Car Wash",
+  "description": "Professional car washing service",
+  "price": 50,
+  "duration": 60, // Duration in minutes
+  "isDeleted": false
+}
+```
+
+## Get Service by ID
+
+### GET /api/services/:id
+
+**Description**: This endpoint allows users to retrieve details of a specific service by its ID.
+
+## Get All Services
+
+### GET /api/services
+
+**Description**: This endpoint allows users to retrieve a list of all available services.
+
+## Update Service (Only Accessible by Admin)
+
+### PUT /api/services/:id
+
+**Description**: This endpoint allows an admin to update the details of a specific service.
+
+### Request Headers
+
+- `Authorization: Bearer <token>`
+
+### Request Body
+
+```json
+{
+  "name": "Updated Service Name",
+  "description": "Updated description of the service",
+  "price": 60, // Updated price
+  "duration": 90, // Updated duration in minutes
+  "isDeleted": false
+}
+```
+
+## Delete a Service (Only Accessible by Admin)
+
+### DELETE /api/services/:id
+
+**Description**: This endpoint allows an admin to soft delete a specific service. The service will not be permanently removed but will be marked as deleted.
+
+### Request Headers
+
+- `Authorization: Bearer <token>`  
+  You must include a valid JWT token with admin privileges to access this endpoint. Ensure that "Bearer" is included at the beginning of the token.
+
 ## Prerequisites
 
 Make sure you have the following installed on your system:
@@ -123,7 +191,6 @@ Make sure you have the following installed on your system:
    ```sh
    git clone https://github.com/yourusername/ecommerce-backend.git
    cd ecommerce-backend
-
    ```
 
 2. **Install dependencies**
@@ -185,3 +252,7 @@ Make sure you have the following installed on your system:
 ## Contact
 
 For any questions or feedback, feel free to contact me via [email](mahpro110@gmail.com) or through my [GitHub profile](https://github.com/MAHossain1).
+
+```
+
+```
