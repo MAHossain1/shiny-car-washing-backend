@@ -14,6 +14,11 @@ This is the backend application for the Shiny Car Washing platform, built using 
   - [Get All Services](#get-all-services)
   - [Update Service](#update-service)
   - [Delete a Service](#delete-a-service)
+  - [Create Slot](#create-slot)
+  - [Get Available Slots](#get-available-slots)
+  - [Book a Service](#book-a-service)
+  - [Get All Bookings](#get-all-bookings)
+  - [Get User's Bookings](#get-users-bookings)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
@@ -51,64 +56,6 @@ This is the backend application for the Shiny Car Washing platform, built using 
 
 - **email** (string, required): The email address of the user.
 - **password** (string, required): The password of the user.
-
-### Response
-
-The response is a JSON object with the following schema:
-
-```json
-{
-  "type": "object",
-  "properties": {
-    "success": {
-      "type": "boolean"
-    },
-    "statusCode": {
-      "type": "integer"
-    },
-    "message": {
-      "type": "string"
-    },
-    "data": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
-        },
-        "data": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string"
-            },
-            "email": {
-              "type": "string"
-            },
-            "phone": {
-              "type": "string"
-            },
-            "role": {
-              "type": "string"
-            },
-            "address": {
-              "type": "string"
-            },
-            "createdAt": {
-              "type": "string"
-            },
-            "updatedAt": {
-              "type": "string"
-            },
-            "__v": {
-              "type": "integer"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-```
 
 ## Create Service
 
@@ -175,6 +122,77 @@ The response is a JSON object with the following schema:
 
 - `Authorization: Bearer <token>`  
   You must include a valid JWT token with admin privileges to access this endpoint. Ensure that "Bearer" is included at the beginning of the token.
+
+## Create Slot
+
+### POST /api/services/slots
+
+**Description**: This endpoint allows an admin to create a new slot for a service.
+
+### Request Headers
+
+- `Authorization: Bearer <token>`  
+  You must include a valid JWT token with admin privileges to access this endpoint. Ensure that "Bearer" is included at the beginning of the token.
+
+### Request Body
+
+```json
+{
+  "serviceId": "60d9c4e4f3b4b544b8b8d1c5",
+  "date": "2024-08-15T00:00:00.000Z",
+  "startTime": "09:00",
+  "endTime": "10:00",
+  "isBooked": false
+}
+```
+
+## Get Available Slots
+
+### GET /api/slots/availability
+
+**Description**: This endpoint retrieves available slots based on optional query parameters.
+
+### Query Parameters
+
+- `date` (Optional): The specific date for which available slots are requested. The format should be `YYYY-MM-DD`.
+- `serviceId` (Optional): ID of the service for which available slots are requested.
+
+### Request Example
+
+- GET /api/slots/availability?date=2024-06-15&serviceId=60d9c4e4f3b4b544b8b8d1c5
+
+## Book a Service
+
+### POST /api/bookings
+
+**Description**: This endpoint allows users to book a service.
+
+### Request Headers
+
+- `Authorization: Bearer <token>`  
+  You must include a valid JWT token with user privileges to access this endpoint. Ensure that "Bearer" is included at the beginning of the token.
+
+## Get All Bookings
+
+### GET /api/bookings
+
+**Description**: This endpoint retrieves a list of all bookings. This action is restricted to admin users.
+
+### Request Headers
+
+- `Authorization: Bearer <token>`  
+  You must include a valid JWT token with admin privileges to access this endpoint. Ensure that "Bearer" is included at the beginning of the token.
+
+  ## Get User's Bookings
+
+### GET /api/my-bookings
+
+**Description**: This endpoint retrieves all bookings made by the authenticated user. This action is restricted to user accounts.
+
+### Request Headers
+
+- `Authorization: Bearer <token>`  
+  You must include a valid JWT token with user privileges to access this endpoint. Ensure that "Bearer" is included at the beginning of the token.
 
 ## Prerequisites
 
