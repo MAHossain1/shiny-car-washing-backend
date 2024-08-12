@@ -4,14 +4,14 @@ import { USER_ROLE } from './user.constant';
 
 export type TRole = 'admin' | 'user';
 
-export type TUserName = {
-  firstName: string;
-  middleName?: string;
-  lastName: string;
-};
+// export type TUserName = {
+//   firstName: string;
+//   middleName?: string;
+//   lastName: string;
+// };
 
 export type TUser = {
-  name: TUserName;
+  name: string;
   email: string;
   password: string;
   phone: string;

@@ -36,7 +36,7 @@ const LoginUser = async (payload: TLoginUser) => {
   };
 
   // create  accessToken
-  const accessToken = createToken(
+  const token = createToken(
     jwtPayload,
     config.jwt_access_token as string,
     config.jwt_access_expires_in as string
@@ -50,7 +50,7 @@ const LoginUser = async (payload: TLoginUser) => {
   );
 
   return {
-    accessToken,
+    token,
     refreshToken,
     data: user,
   };
@@ -68,15 +68,6 @@ const changePassword = async (
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!');
   }
-
-  //   const isPasswordMatch = await User.isPasswordMatch(
-  //     payload?.oldPassword,
-  //     user?.password
-  //   );
-
-  //   if (!isPasswordMatch) {
-  //     throw new AppError(httpStatus.BAD_REQUEST, 'Your password is incorrect!');
-  //   }
 
   //checking if the password is correct
   if (!(await User.isPasswordMatch(payload.oldPassword, user?.password)))

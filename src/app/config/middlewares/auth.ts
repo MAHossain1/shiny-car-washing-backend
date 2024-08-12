@@ -12,13 +12,19 @@ const auth = (...requiredRoles: TUserRole[]) => {
     const authorizationHeader = req.headers.authorization;
 
     if (!authorizationHeader) {
-      throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized.');
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        'You have no access to this route!'
+      );
     }
 
     const [bearer, token] = authorizationHeader.split(' ');
 
     if (bearer !== 'Bearer' || !token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized .');
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        'You have no access to this route!'
+      );
     }
 
     let decoded;
@@ -43,13 +49,14 @@ const auth = (...requiredRoles: TUserRole[]) => {
     }
 
     if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!');
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        'You have  no access to this route!'
+      );
     }
 
     req.user = decoded as JwtPayload;
     next();
-
-    //*
   });
 };
 

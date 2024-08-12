@@ -3,34 +3,34 @@ import bcrypt from 'bcrypt';
 import { model, Schema } from 'mongoose';
 import config from '../../config';
 import { Roles } from './user.constant';
-import { TUser, TUserName, UserModel } from './user.interface';
+import { TUser, UserModel } from './user.interface';
 
-const userNameSchema = new Schema<TUserName>(
-  {
-    firstName: {
-      type: String,
-      required: [true, 'First Name is required'],
-      trim: true,
-    },
-    middleName: {
-      type: String,
-      trim: true,
-    },
-    lastName: {
-      type: String,
-      required: [true, 'First Name is required'],
-      trim: true,
-    },
-  },
-  {
-    _id: false,
-  }
-);
+// const userNameSchema = new Schema<TUserName>(
+//   {
+//     firstName: {
+//       type: String,
+//       required: [true, 'First Name is required'],
+//       trim: true,
+//     },
+//     middleName: {
+//       type: String,
+//       trim: true,
+//     },
+//     lastName: {
+//       type: String,
+//       required: [true, 'First Name is required'],
+//       trim: true,
+//     },
+//   },
+//   {
+//     _id: false,
+//   }
+// );
 
 const userSchema = new Schema<TUser, UserModel>(
   {
     name: {
-      type: userNameSchema,
+      type: String,
       required: [true, 'User name is required.'],
     },
     email: {
