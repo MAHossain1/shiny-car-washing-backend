@@ -6,14 +6,17 @@ const bookingSchema = new Schema<TBooking>(
     customerId: {
       type: Schema.Types.ObjectId,
       required: true,
+      ref: 'User',
     },
     serviceId: {
       type: Schema.Types.ObjectId,
       required: true,
+      ref: 'Service',
     },
     slotId: {
       type: Schema.Types.ObjectId,
       required: true,
+      ref: 'Slot',
     },
     vehicleType: {
       type: String,
@@ -28,7 +31,7 @@ const bookingSchema = new Schema<TBooking>(
       required: true,
     },
     manufacturingYear: {
-      type: String,
+      type: Number,
       required: true,
     },
     registrationPlate: {
