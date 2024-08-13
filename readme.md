@@ -1,5 +1,3 @@
-Certainly! Below is the organized documentation in README.md format:
-
 # Shiny Car Washing Backend
 
 This is the backend application for the Shiny Car Washing platform, built using Node.js, Express, TypeScript, and MongoDB.
