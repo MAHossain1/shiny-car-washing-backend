@@ -15,7 +15,7 @@ export type TUser = {
   email: string;
   password: string;
   phone: string;
-  role: TRole;
+  role?: TRole;
   address: string;
 };
 

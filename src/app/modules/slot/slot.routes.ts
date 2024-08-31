@@ -1,5 +1,6 @@
 import express from 'express';
 import { SlotControllers } from './slot.controller';
+import auth from '../../config/middlewares/auth';
 
 const router = express.Router();
 
@@ -12,5 +13,9 @@ const router = express.Router();
 // );
 
 router.get('/availability', SlotControllers.getAvailableSlots);
+
+router.put('/update-slot/:id', auth('admin'), SlotControllers.updateASlot);
+
+router.delete('/:id', auth('admin'), SlotControllers.deleteASlot);
 
 export const SlotRoutes = router;

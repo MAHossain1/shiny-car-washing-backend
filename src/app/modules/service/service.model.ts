@@ -20,6 +20,10 @@ const serviceSchema = new Schema<TService>(
       type: Number,
       required: [true, 'Duration is required'],
     },
+    imgUrl: {
+      type: String,
+      default: 'www.img.com',
+    },
     isDeleted: {
       type: Boolean,
       default: false,

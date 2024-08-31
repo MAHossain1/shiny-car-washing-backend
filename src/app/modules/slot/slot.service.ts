@@ -75,7 +75,23 @@ const getAvailableSlotsFromDB = async (query: Record<string, unknown>) => {
   return result;
 };
 
+const updateASlotIntoDB = async (SlotId: string, payload: Partial<TSlot>) => {
+  const result = await Slot.findByIdAndUpdate(SlotId, payload, {
+    new: true,
+  });
+
+  return result;
+};
+
+const deleteASlotFromDB = async (slotId: string) => {
+  const result = await Slot.findByIdAndDelete(slotId);
+
+  return result;
+};
+
 export const SlotServices = {
   createSlotsIntoDB,
   getAvailableSlotsFromDB,
+  updateASlotIntoDB,
+  deleteASlotFromDB,
 };

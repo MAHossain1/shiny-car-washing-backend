@@ -9,4 +9,5 @@ export type TBooking = {
   vehicleModel: string;
   manufacturingYear: number;
   registrationPlate: string;
+  payment_url?: string;
 };

@@ -52,6 +52,7 @@ interface TBooking extends Document {
   vehicleBrand: string;
   manufacturingYear: number;
   registrationPlate: string;
+  payment_url?: string;
   createdAt?: Date; // Add this line
   updatedAt?: Date; // Add this line
 }

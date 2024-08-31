@@ -47,6 +47,8 @@ const createABookingIntoDB = async (userEmail: string, payload: TBooking) => {
     );
   }
 
+  const paymentUrl = 'http://localhost:5173/payment-success';
+
   await Slot.findByIdAndUpdate(payload.slotId, { isBooked: 'booked' });
 
   const bookingData = {
@@ -58,6 +60,7 @@ const createABookingIntoDB = async (userEmail: string, payload: TBooking) => {
     vehicleBrand,
     manufacturingYear,
     registrationPlate,
+    payment_url: paymentUrl,
   };
 
   const createdBooking = await Booking.create(bookingData);
@@ -79,6 +82,7 @@ const createABookingIntoDB = async (userEmail: string, payload: TBooking) => {
     registrationPlate: booking?.registrationPlate,
     createdAt: booking?.createdAt,
     updatedAt: booking?.updatedAt,
+    payment_url: booking?.payment_url,
   };
   return result;
 };

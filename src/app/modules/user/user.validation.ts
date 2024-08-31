@@ -22,7 +22,7 @@ const createUserZodValidation = z.object({
       .min(1, 'password is required')
       .max(20, 'password should not exceeded 20 character.'),
     phone: z.string().min(1, 'Phone number is required'),
-    role: z.enum(['admin', 'user']),
+    // role: z.enum(['admin', 'user']),
     address: z.string().min(1, 'Address is required'),
   }),
 });

@@ -7,4 +7,6 @@ const router = express.Router();
 
 router.get('/', auth(USER_ROLE.admin), UserControllers.getAllUsers);
 
+router.put('/:id', auth('admin'), UserControllers.updateAUser);
+
 export const UserRoutes = router;

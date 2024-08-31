@@ -1,5 +1,6 @@
 import QueryBuilder from '../../builder/QueryBuilder';
 import { userSearchFields } from './user.constant';
+import { TUser } from './user.interface';
 import { User } from './user.model';
 
 const getAllUsers = async (query: Record<string, unknown>) => {
@@ -14,4 +15,12 @@ const getAllUsers = async (query: Record<string, unknown>) => {
   return result;
 };
 
-export const UserServices = { getAllUsers };
+const updateAUserIntoDB = async (UserId: string, payload: Partial<TUser>) => {
+  const result = await User.findByIdAndUpdate(UserId, payload, {
+    new: true,
+  });
+
+  return result;
+};
+
+export const UserServices = { getAllUsers, updateAUserIntoDB };
