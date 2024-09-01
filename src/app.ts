@@ -4,19 +4,28 @@ import globalErrorHandler from './app/config/middlewares/globalErrorHandler';
 import notFound from './app/config/middlewares/notFound';
 import router from './app/routes';
 import cookieParser from 'cookie-parser';
+
 const app: Application = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(
+  cors({
+    origin: [
+      'https://shiny-car-washing-service.netlify.app',
+      'http://localhost:5173',
+    ], // Note no trailing slash}
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  })
+);
 
 app.use('/api', router);
-// app.use('/api/my-bookings', myRoutes);
 
 app.use(globalErrorHandler);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello Bangladesh of the World!');
+  res.send('Hello World from Bangladesh 2.0');
 });
 
 app.use(notFound);

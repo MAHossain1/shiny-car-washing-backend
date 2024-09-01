@@ -40,6 +40,7 @@ const createABookingIntoDB = (userEmail, payload) => __awaiter(void 0, void 0, v
     if (!isServiceExistsInSlot) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'This slot is not found in this service.');
     }
+    const paymentUrl = 'http://localhost:5173/payment-success';
     yield slot_model_1.Slot.findByIdAndUpdate(payload.slotId, { isBooked: 'booked' });
     const bookingData = {
         customerId,
@@ -50,6 +51,7 @@ const createABookingIntoDB = (userEmail, payload) => __awaiter(void 0, void 0, v
         vehicleBrand,
         manufacturingYear,
         registrationPlate,
+        payment_url: paymentUrl,
     };
     const createdBooking = yield booking_model_1.Booking.create(bookingData);
     const booking = yield booking_model_1.Booking.findById(createdBooking._id)
@@ -68,6 +70,7 @@ const createABookingIntoDB = (userEmail, payload) => __awaiter(void 0, void 0, v
         registrationPlate: booking === null || booking === void 0 ? void 0 : booking.registrationPlate,
         createdAt: booking === null || booking === void 0 ? void 0 : booking.createdAt,
         updatedAt: booking === null || booking === void 0 ? void 0 : booking.updatedAt,
+        payment_url: booking === null || booking === void 0 ? void 0 : booking.payment_url,
     };
     return result;
 });

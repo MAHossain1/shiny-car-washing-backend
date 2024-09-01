@@ -24,6 +24,7 @@ const createUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const LoginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const user = yield user_model_1.User.isUserExistsByEmail(payload.email);
     // Whether the user exists or not.
     if (!user) {
@@ -35,7 +36,7 @@ const LoginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     }
     const jwtPayload = {
         userEmail: user.email,
-        role: user.role,
+        role: (_a = user.role) !== null && _a !== void 0 ? _a : 'user',
     };
     // create  accessToken
     const token = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_access_token, config_1.default.jwt_access_expires_in);

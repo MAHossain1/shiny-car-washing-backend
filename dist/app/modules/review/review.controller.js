@@ -12,31 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserControllers = void 0;
+exports.ReviewControllers = void 0;
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
-const user_service_1 = require("./user.service");
-const getAllUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_service_1.UserServices.getAllUsers(req.query);
+const review_service_1 = require("./review.service");
+const createAReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userEmail } = req.user;
+    const result = yield review_service_1.ReviewServices.createAReviewIntoDB(userEmail, req.body);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
-        message: 'Users retrieved Successfully done.',
+        message: 'Create a Review successfully done.',
         data: result,
     });
 }));
-const updateAUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const result = yield user_service_1.UserServices.updateAUserIntoDB(id, req.body);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: http_status_1.default.OK,
-        message: 'Update a user successfully done.',
-        data: result,
-    });
-}));
-exports.UserControllers = {
-    getAllUsers,
-    updateAUser,
+exports.ReviewControllers = {
+    createAReview,
 };

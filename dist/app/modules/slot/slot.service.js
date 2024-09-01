@@ -73,7 +73,19 @@ const getAvailableSlotsFromDB = (query) => __awaiter(void 0, void 0, void 0, fun
     const result = yield slotQuery.modelQuery;
     return result;
 });
+const updateASlotIntoDB = (SlotId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield slot_model_1.Slot.findByIdAndUpdate(SlotId, payload, {
+        new: true,
+    });
+    return result;
+});
+const deleteASlotFromDB = (slotId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield slot_model_1.Slot.findByIdAndDelete(slotId);
+    return result;
+});
 exports.SlotServices = {
     createSlotsIntoDB,
     getAvailableSlotsFromDB,
+    updateASlotIntoDB,
+    deleteASlotFromDB,
 };
