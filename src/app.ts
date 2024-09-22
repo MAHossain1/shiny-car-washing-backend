@@ -13,6 +13,7 @@ app.use(
   cors({
     origin: [
       'https://shiny-car-washing-service.netlify.app',
+      // 'https://shiny-car-washing-client.vercel.app/',
       'http://localhost:5173',
     ], // Note no trailing slash}
     credentials: true,

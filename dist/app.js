@@ -13,14 +13,18 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: 'https://shiny-car-washing-service.netlify.app', // Note no trailing slash
+    origin: [
+        'https://shiny-car-washing-service.netlify.app',
+        // 'https://shiny-car-washing-client.vercel.app/',
+        'http://localhost:5173',
+    ], // Note no trailing slash}
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 }));
 app.use('/api', routes_1.default);
 app.use(globalErrorHandler_1.default);
 app.get('/', (req, res) => {
-    res.send('Hello Bangladesh of the World!');
+    res.send('Hello World from Bangladesh 2.0');
 });
 app.use(notFound_1.default);
 exports.default = app;

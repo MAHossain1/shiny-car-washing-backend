@@ -25,6 +25,13 @@ const createAReviewIntoDB = async (userEmail: string, payload: TReview) => {
   return result;
 };
 
+const getAllReviews = async () => {
+  const reviews = await Review.find().populate('customerId');
+
+  return reviews;
+};
+
 export const ReviewServices = {
   createAReviewIntoDB,
+  getAllReviews,
 };
