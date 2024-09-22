@@ -35,7 +35,8 @@ const LoginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'Your password is incorrect!');
     }
     const jwtPayload = {
-        userEmail: user.email,
+        email: user.email,
+        name: user.name,
         role: (_a = user.role) !== null && _a !== void 0 ? _a : 'user',
     };
     // create  accessToken
@@ -50,7 +51,7 @@ const LoginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const changePassword = (userData, payload) => __awaiter(void 0, void 0, void 0, function* () {
     //   console.log(userData);
-    const user = yield user_model_1.User.isUserExistsByEmail(userData.userEmail);
+    const user = yield user_model_1.User.isUserExistsByEmail(userData.email);
     //   console.log('user from controller', user);
     // Whether the user exists or not.
     if (!user) {

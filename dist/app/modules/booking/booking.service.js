@@ -18,9 +18,9 @@ const AppError_1 = __importDefault(require("../../errors/AppError"));
 const user_model_1 = require("../user/user.model");
 const slot_model_1 = require("../slot/slot.model");
 const booking_model_1 = require("./booking.model");
-const createABookingIntoDB = (userEmail, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const createABookingIntoDB = (email, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { slotId, serviceId, vehicleType, vehicleModel, vehicleBrand, manufacturingYear, registrationPlate, } = payload;
-    const user = yield user_model_1.User.findOne({ email: userEmail });
+    const user = yield user_model_1.User.findOne({ email: email });
     if (!user) {
         throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'You are not a valid user.');
     }

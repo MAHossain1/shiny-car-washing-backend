@@ -4,10 +4,10 @@ import { User } from '../user/user.model';
 import { TReview } from './review.interface';
 import { Review } from './review.model';
 
-const createAReviewIntoDB = async (userEmail: string, payload: TReview) => {
+const createAReviewIntoDB = async (email: string, payload: TReview) => {
   const { reviewText, ratting } = payload;
 
-  const user = await User.findOne({ email: userEmail });
+  const user = await User.findOne({ email: email });
   if (!user) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'You are not a valid user.');
   }

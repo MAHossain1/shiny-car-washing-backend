@@ -10,6 +10,7 @@ const validateRequest_1 = __importDefault(require("../../config/middlewares/vali
 const review_validation_1 = require("./review.validation");
 const review_controller_1 = require("./review.controller");
 const router = express_1.default.Router();
+router.get('/', review_controller_1.ReviewControllers.getAllReviews);
 router.post('/', (0, auth_1.default)('user'), (0, validateRequest_1.default)(review_validation_1.ReviewZodValidationSchema.createReviewValidation), review_controller_1.ReviewControllers.createAReview);
 // router.get('/', auth('admin'), BookingControllers.getAllBookings);
 exports.ReviewRoutes = router;

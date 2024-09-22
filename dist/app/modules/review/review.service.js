@@ -17,9 +17,9 @@ const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const user_model_1 = require("../user/user.model");
 const review_model_1 = require("./review.model");
-const createAReviewIntoDB = (userEmail, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const createAReviewIntoDB = (email, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { reviewText, ratting } = payload;
-    const user = yield user_model_1.User.findOne({ email: userEmail });
+    const user = yield user_model_1.User.findOne({ email: email });
     if (!user) {
         throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'You are not a valid user.');
     }
@@ -32,6 +32,11 @@ const createAReviewIntoDB = (userEmail, payload) => __awaiter(void 0, void 0, vo
     const result = yield review_model_1.Review.create(reviewData);
     return result;
 });
+const getAllReviews = () => __awaiter(void 0, void 0, void 0, function* () {
+    const reviews = yield review_model_1.Review.find().populate('customerId');
+    return reviews;
+});
 exports.ReviewServices = {
     createAReviewIntoDB,
+    getAllReviews,
 };

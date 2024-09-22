@@ -18,8 +18,8 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
 const review_service_1 = require("./review.service");
 const createAReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userEmail } = req.user;
-    const result = yield review_service_1.ReviewServices.createAReviewIntoDB(userEmail, req.body);
+    const { email } = req.user;
+    const result = yield review_service_1.ReviewServices.createAReviewIntoDB(email, req.body);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -27,6 +27,16 @@ const createAReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         data: result,
     });
 }));
+const getAllReviews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield review_service_1.ReviewServices.getAllReviews();
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: 'Retrieved all Reviews successfully done.',
+        data: result,
+    });
+}));
 exports.ReviewControllers = {
     createAReview,
+    getAllReviews,
 };

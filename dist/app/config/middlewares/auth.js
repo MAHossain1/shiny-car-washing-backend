@@ -35,9 +35,9 @@ const auth = (...requiredRoles) => {
         catch (error) {
             throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'Unauthorized');
         }
-        const { userEmail, role } = decoded;
-        // console.log(userEmail, role, iat);
-        const user = yield user_model_1.User.isUserExistsByEmail(userEmail);
+        const { email, role } = decoded;
+        // console.log(email, role, iat);
+        const user = yield user_model_1.User.isUserExistsByEmail(email);
         // Whether the user exists or not.
         if (!user) {
             throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'This user is not found!');

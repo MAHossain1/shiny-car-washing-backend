@@ -31,7 +31,8 @@ const LoginUser = async (payload: TLoginUser) => {
   }
 
   const jwtPayload = {
-    userEmail: user.email,
+    email: user.email,
+    name: user.name,
     role: user.role ?? 'user',
   };
 
@@ -61,7 +62,7 @@ const changePassword = async (
   payload: { oldPassword: string; newPassword: string }
 ) => {
   //   console.log(userData);
-  const user = await User.isUserExistsByEmail(userData.userEmail);
+  const user = await User.isUserExistsByEmail(userData.email);
   //   console.log('user from controller', user);
 
   // Whether the user exists or not.

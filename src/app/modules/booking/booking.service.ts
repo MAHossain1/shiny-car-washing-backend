@@ -5,7 +5,7 @@ import { TBooking } from './booking.interface';
 import { Slot } from '../slot/slot.model';
 import { Booking } from './booking.model';
 
-const createABookingIntoDB = async (userEmail: string, payload: TBooking) => {
+const createABookingIntoDB = async (email: string, payload: TBooking) => {
   const {
     slotId,
     serviceId,
@@ -16,7 +16,7 @@ const createABookingIntoDB = async (userEmail: string, payload: TBooking) => {
     registrationPlate,
   } = payload;
 
-  const user = await User.findOne({ email: userEmail });
+  const user = await User.findOne({ email: email });
   if (!user) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'You are not a valid user.');
   }

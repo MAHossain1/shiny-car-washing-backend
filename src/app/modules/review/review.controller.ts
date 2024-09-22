@@ -5,8 +5,8 @@ import httpStatus from 'http-status';
 import { ReviewServices } from './review.service';
 
 const createAReview = catchAsync(async (req: Request, res: Response) => {
-  const { userEmail } = req.user!;
-  const result = await ReviewServices.createAReviewIntoDB(userEmail, req.body);
+  const { email } = req.user!;
+  const result = await ReviewServices.createAReviewIntoDB(email, req.body);
 
   sendResponse(res, {
     success: true,

@@ -5,11 +5,8 @@ import httpStatus from 'http-status';
 import { BookingServices } from './booking.service';
 
 const createABooking = catchAsync(async (req: Request, res: Response) => {
-  const { userEmail } = req.user!;
-  const result = await BookingServices.createABookingIntoDB(
-    userEmail,
-    req.body
-  );
+  const { email } = req.user!;
+  const result = await BookingServices.createABookingIntoDB(email, req.body);
 
   sendResponse(res, {
     success: true,
@@ -31,8 +28,8 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getUserBookings = catchAsync(async (req: Request, res: Response) => {
-  const { userEmail } = req.user!;
-  const result = await BookingServices.getUserBookingsFromDB(userEmail);
+  const { email } = req.user!;
+  const result = await BookingServices.getUserBookingsFromDB(email);
 
   sendResponse(res, {
     success: true,

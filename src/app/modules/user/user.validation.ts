@@ -1,18 +1,5 @@
 import { z } from 'zod';
 
-// const userNameValidationSchema = z.object({
-//   firstName: z
-//     .string()
-//     .max(20, 'First name can not be more than 20 characters.')
-//     .min(1),
-
-//   middleName: z.string().optional(),
-//   lastName: z
-//     .string()
-//     .max(20, 'First name can not be more than 20 characters.')
-//     .min(1),
-// });
-
 const createUserZodValidation = z.object({
   body: z.object({
     name: z.string().min(1, 'Name is required'),

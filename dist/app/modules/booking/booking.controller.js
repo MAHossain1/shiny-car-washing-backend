@@ -18,8 +18,8 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
 const booking_service_1 = require("./booking.service");
 const createABooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userEmail } = req.user;
-    const result = yield booking_service_1.BookingServices.createABookingIntoDB(userEmail, req.body);
+    const { email } = req.user;
+    const result = yield booking_service_1.BookingServices.createABookingIntoDB(email, req.body);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -37,8 +37,8 @@ const getAllBookings = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
     });
 }));
 const getUserBookings = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userEmail } = req.user;
-    const result = yield booking_service_1.BookingServices.getUserBookingsFromDB(userEmail);
+    const { email } = req.user;
+    const result = yield booking_service_1.BookingServices.getUserBookingsFromDB(email);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
