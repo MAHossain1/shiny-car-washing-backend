@@ -6,7 +6,8 @@ import { UserControllers } from './user.controller';
 const router = express.Router();
 
 router.get('/', auth(USER_ROLE.admin), UserControllers.getAllUsers);
+router.get('/:email', UserControllers.getSingleUser);
 
-router.put('/:id', auth('admin'), UserControllers.updateAUser);
+router.put('/:id', auth('admin', 'user'), UserControllers.updateAUser);
 
 export const UserRoutes = router;

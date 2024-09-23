@@ -18,7 +18,7 @@ router.get('/', auth('admin'), BookingControllers.getAllBookings);
 export const BookingRoutes = router;
 
 export const myRoutes = router.get(
-  '/',
+  '/my-bookings',
   auth('user'),
   BookingControllers.getUserBookings
 );

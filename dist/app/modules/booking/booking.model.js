@@ -38,6 +38,12 @@ const bookingSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    transactionId: {
+        type: String,
+        required: true,
+    },
+    paymentStatus: { type: String },
+    paymentConfirmationDate: { type: String },
 }, {
     timestamps: true,
 });

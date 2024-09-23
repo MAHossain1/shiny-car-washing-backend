@@ -1,4 +1,5 @@
 import QueryBuilder from '../../builder/QueryBuilder';
+import AppError from '../../errors/AppError';
 import { userSearchFields } from './user.constant';
 import { TUser } from './user.interface';
 import { User } from './user.model';
@@ -15,6 +16,16 @@ const getAllUsers = async (query: Record<string, unknown>) => {
   return result;
 };
 
+const getSingleUserFromDB = async (email: string) => {
+  const user = await User.findOne({ email: email });
+
+  if (!user) {
+    throw new AppError(400, 'User not found');
+  }
+
+  return user;
+};
+
 const updateAUserIntoDB = async (UserId: string, payload: Partial<TUser>) => {
   const result = await User.findByIdAndUpdate(UserId, payload, {
     new: true,
@@ -23,4 +34,8 @@ const updateAUserIntoDB = async (UserId: string, payload: Partial<TUser>) => {
   return result;
 };
 
-export const UserServices = { getAllUsers, updateAUserIntoDB };
+export const UserServices = {
+  getAllUsers,
+  updateAUserIntoDB,
+  getSingleUserFromDB,
+};
