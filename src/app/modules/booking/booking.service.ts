@@ -1,10 +1,91 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TBooking } from './booking.interface';
 import { Slot } from '../slot/slot.model';
 import { Booking } from './booking.model';
+import mongoose from 'mongoose';
+import { Service } from '../service/service.model';
+import { initiatePayment } from '../payment/payment.utlis';
 
+// const createABookingIntoDB = async (email: string, payload: TBooking) => {
+//   const {
+//     slotId,
+//     serviceId,
+//     vehicleType,
+//     vehicleModel,
+//     vehicleBrand,
+//     manufacturingYear,
+//     registrationPlate,
+//   } = payload;
+
+//   const user = await User.findOne({ email: email });
+//   if (!user) {
+//     throw new AppError(httpStatus.UNAUTHORIZED, 'You are not a valid user.');
+//   }
+
+//   const customerId = user._id;
+
+//   const existingBooking = await Booking.findOne({
+//     serviceId,
+//     slotId,
+//     customerId,
+//   });
+
+//   if (existingBooking) {
+//     throw new AppError(
+//       httpStatus.CONFLICT,
+//       'A booking with the same slot and service already exists!'
+//     );
+//   }
+
+//   const isServiceExistsInSlot = await Slot.findOne({
+//     _id: payload.slotId,
+//     service: payload.serviceId,
+//   });
+//   if (!isServiceExistsInSlot) {
+//     throw new AppError(
+//       httpStatus.NOT_FOUND,
+//       'This slot is not found in this service.'
+//     );
+//   }
+
+//   await Slot.findByIdAndUpdate(payload.slotId, { isBooked: 'booked' });
+
+//   const bookingData = {
+//     customerId,
+//     slotId,
+//     serviceId,
+//     vehicleType,
+//     vehicleModel,
+//     vehicleBrand,
+//     manufacturingYear,
+//     registrationPlate,
+//   };
+
+//   const createdBooking = await Booking.create(bookingData);
+
+//   const booking = await Booking.findById(createdBooking._id)
+//     .populate('customerId')
+//     .populate('serviceId')
+//     .populate('slotId');
+
+//   const result = {
+//     _id: booking?._id,
+//     customer: booking?.customerId,
+//     service: booking?.serviceId,
+//     slot: booking?.slotId,
+//     vehicleType: booking?.vehicleType,
+//     vehicleBrand: booking?.vehicleBrand,
+//     vehicleModel: booking?.vehicleModel,
+//     manufacturingYear: booking?.manufacturingYear,
+//     registrationPlate: booking?.registrationPlate,
+//     createdAt: booking?.createdAt,
+//     updatedAt: booking?.updatedAt,
+//   };
+//   return result;
+// };
 const createABookingIntoDB = async (email: string, payload: TBooking) => {
   const {
     slotId,
@@ -47,44 +128,100 @@ const createABookingIntoDB = async (email: string, payload: TBooking) => {
     );
   }
 
-  const paymentUrl = 'http://localhost:5173/payment-success';
+  const service = await Service.findById(serviceId);
+  if (!service) {
+    throw new AppError(400, 'Service not found: ' + serviceId);
+  }
 
-  await Slot.findByIdAndUpdate(payload.slotId, { isBooked: 'booked' });
+  const slot = await Slot.findById(slotId);
 
-  const bookingData = {
-    customerId,
-    slotId,
-    serviceId,
-    vehicleType,
-    vehicleModel,
-    vehicleBrand,
-    manufacturingYear,
-    registrationPlate,
-    payment_url: paymentUrl,
-  };
+  if (!slot) {
+    throw new AppError(httpStatus.NOT_FOUND, 'slot not found!');
+  }
 
-  const createdBooking = await Booking.create(bookingData);
+  //! Update slot after successfully completion payment using transaction and rollback
 
-  const booking = await Booking.findById(createdBooking._id)
-    .populate('customerId')
-    .populate('serviceId')
-    .populate('slotId');
+  const session = await mongoose.startSession();
 
-  const result = {
-    _id: booking?._id,
-    customer: booking?.customerId,
-    service: booking?.serviceId,
-    slot: booking?.slotId,
-    vehicleType: booking?.vehicleType,
-    vehicleBrand: booking?.vehicleBrand,
-    vehicleModel: booking?.vehicleModel,
-    manufacturingYear: booking?.manufacturingYear,
-    registrationPlate: booking?.registrationPlate,
-    createdAt: booking?.createdAt,
-    updatedAt: booking?.updatedAt,
-    payment_url: booking?.payment_url,
-  };
-  return result;
+  try {
+    session.startTransaction();
+    slot.isBooked = 'booked';
+
+    await slot.save();
+
+    const transactionId = `TXN-${Date.now()}`;
+
+    const bookingData = {
+      customerId,
+      slotId,
+      serviceId,
+      vehicleType,
+      vehicleModel,
+      vehicleBrand,
+      manufacturingYear,
+      registrationPlate,
+      transactionId,
+    };
+
+    await Booking.create(bookingData);
+
+    const paymentData = {
+      transactionId,
+      price: service.price,
+      customerName: user.name,
+      customerEmail: user.email,
+      customerPhone: user.phone,
+      customerAddress: user.address,
+      startTime: slot.startTime,
+      serviceName: service.name,
+    };
+
+    const paymentSession = await initiatePayment(paymentData);
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    return paymentSession;
+  } catch (error: any) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new Error(error);
+  }
+
+  // await Slot.findByIdAndUpdate(payload.slotId, { isBooked: 'booked' });
+
+  // const bookingData = {
+  //   customerId,
+  //   slotId,
+  //   serviceId,
+  //   vehicleType,
+  //   vehicleModel,
+  //   vehicleBrand,
+  //   manufacturingYear,
+  //   registrationPlate,
+  // };
+
+  // const createdBooking = await Booking.create(bookingData);
+
+  // const booking = await Booking.findById(createdBooking._id)
+  //   .populate('customerId')
+  //   .populate('serviceId')
+  //   .populate('slotId');
+
+  // const result = {
+  //   _id: booking?._id,
+  //   customer: booking?.customerId,
+  //   service: booking?.serviceId,
+  //   slot: booking?.slotId,
+  //   vehicleType: booking?.vehicleType,
+  //   vehicleBrand: booking?.vehicleBrand,
+  //   vehicleModel: booking?.vehicleModel,
+  //   manufacturingYear: booking?.manufacturingYear,
+  //   registrationPlate: booking?.registrationPlate,
+  //   createdAt: booking?.createdAt,
+  //   updatedAt: booking?.updatedAt,
+  // };
+  // return result;
 };
 
 const getAllBookingsFromDB = async () => {

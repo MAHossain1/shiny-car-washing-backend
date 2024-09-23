@@ -37,6 +37,12 @@ const bookingSchema = new Schema<TBooking>(
       type: String,
       required: true,
     },
+    transactionId: {
+      type: String,
+      required: true,
+    },
+    paymentStatus: { type: String },
+    paymentConfirmationDate: { type: String },
   },
   {
     timestamps: true,
@@ -55,6 +61,9 @@ interface TBooking extends Document {
   payment_url?: string;
   createdAt?: Date; // Add this line
   updatedAt?: Date; // Add this line
+  transactionId: string;
+  paymentStatus: string;
+  paymentConfirmationDate: string;
 }
 
 export const Booking = model<TBooking>('Booking', bookingSchema);
