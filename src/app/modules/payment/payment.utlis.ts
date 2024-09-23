@@ -21,9 +21,11 @@ export const initiatePayment = async (paymentData: any) => {
       store_id: config.store_id,
       signature_key: config.signature_key,
       tran_id: transactionId,
-      success_url: `http://localhost:${config.port}/api/payment/confirmation?transactionId=${transactionId}&status=success`,
+      //   success_url: `http://localhost:${config.port}/api/payment/confirmation?transactionId=${transactionId}&status=success`,
+      success_url: `https://shiny-car-washing-backend.vercel.app/api/payment/confirmation?transactionId=${transactionId}&status=success`,
 
-      fail_url: `http://localhost:${config.port}/api/payment/confirmation?status=fail`,
+      //   fail_url: `http://localhost:${config.port}/api/payment/confirmation?status=fail`,
+      fail_url: `https://shiny-car-washing-backend.vercel.app/api/payment/confirmation?status=fail`,
 
       cancel_url: 'https://shiny-car-washing-service.netlify.app',
       amount: price,
