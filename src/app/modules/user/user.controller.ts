@@ -28,8 +28,8 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateAUser = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const result = await UserServices.updateAUserIntoDB(id, req.body);
+  const { email } = req.params;
+  const result = await UserServices.updateAUserIntoDB(email, req.body);
 
   sendResponse(res, {
     success: true,

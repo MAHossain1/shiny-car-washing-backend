@@ -13,4 +13,4 @@ const router = express_1.default.Router();
 router.post('/', (0, auth_1.default)('user'), (0, validateRequest_1.default)(booking_validation_1.BookingZodValidationSchema.createBookingValidation), booking_controller_1.BookingControllers.createABooking);
 router.get('/', (0, auth_1.default)('admin'), booking_controller_1.BookingControllers.getAllBookings);
 exports.BookingRoutes = router;
-exports.myRoutes = router.get('/', (0, auth_1.default)('user'), booking_controller_1.BookingControllers.getUserBookings);
+exports.myRoutes = router.get('/my-bookings', (0, auth_1.default)('user'), booking_controller_1.BookingControllers.getUserBookings);

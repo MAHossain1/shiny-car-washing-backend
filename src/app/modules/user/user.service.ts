@@ -26,8 +26,8 @@ const getSingleUserFromDB = async (email: string) => {
   return user;
 };
 
-const updateAUserIntoDB = async (UserId: string, payload: Partial<TUser>) => {
-  const result = await User.findByIdAndUpdate(UserId, payload, {
+const updateAUserIntoDB = async (email: string, payload: Partial<TUser>) => {
+  const result = await User.findOneAndUpdate({ email: email }, payload, {
     new: true,
   });
 

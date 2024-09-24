@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserServices = void 0;
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
+const AppError_1 = __importDefault(require("../../errors/AppError"));
 const user_constant_1 = require("./user.constant");
 const user_model_1 = require("./user.model");
 const getAllUsers = (query) => __awaiter(void 0, void 0, void 0, function* () {
@@ -26,10 +27,21 @@ const getAllUsers = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield userQuery.modelQuery;
     return result;
 });
+const getSingleUserFromDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.User.findOne({ email: email });
+    if (!user) {
+        throw new AppError_1.default(400, 'User not found');
+    }
+    return user;
+});
 const updateAUserIntoDB = (UserId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.User.findByIdAndUpdate(UserId, payload, {
         new: true,
     });
     return result;
 });
-exports.UserServices = { getAllUsers, updateAUserIntoDB };
+exports.UserServices = {
+    getAllUsers,
+    updateAUserIntoDB,
+    getSingleUserFromDB,
+};
